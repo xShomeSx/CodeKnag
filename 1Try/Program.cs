@@ -26,9 +26,9 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                 "2. Again only one guess now with call ><. \n" +
                 "3. Multiple tries from now on \n" +
                 "4. I count your tries! \n" +
-                "5. Randomized Number" +
+                "5. Randomized Number \n" +
                 "6. 3 different ranges (Modulo Operator) \n" +
-                "7. Set the range yourself." +
+                "7. Set the range yourself. \n" +
                 "8." +
                 "9." +
                 "10." +

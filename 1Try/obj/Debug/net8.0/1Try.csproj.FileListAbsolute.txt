@@ -1,0 +1,14 @@
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.AssemblyInfoInputs.cache
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.AssemblyInfo.cs
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.csproj.CoreCompileInputs.cache
+C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.exe
+C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.deps.json
+C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.runtimeconfig.json
+C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.dll
+C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.pdb
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.dll
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\refint\1Try.dll
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.pdb
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.genruntimeconfig.cache
+C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\ref\1Try.dll

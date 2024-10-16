@@ -115,7 +115,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
         }
         else if (choice > secnum)
         {
-            Console.WriteLine("Nah, its a bit to high!");
+            Console.WriteLine("Nah, its a bit to high!"); // "vergleichendes" too immer mit zwei o (too late, too much, ...)
         }
         else
         {

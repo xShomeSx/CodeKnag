@@ -461,7 +461,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
         if (choice == 'r')
         {
             Console.Clear();
-            restartVersion();
+            restartVersion(); // die Idee ist cool, schön umgesetzt die Funktion als Action mitzugeben und aufzurufen
         }
         else if (choice == 'm')
         {

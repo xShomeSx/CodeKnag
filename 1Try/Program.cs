@@ -145,13 +145,14 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
             }
             else
             {
-                Console.WriteLine("Great you did it!");
+                Console.WriteLine("Great you did it!"); // theoretisch kann man hier auch das else streichen und den console output wie unten im kommentar nach der schleife einfügen, da diese ja sowieso mit success endet. ist letztendlich Geschmacksache und ich finde es auch schön wie hier alle möglichen outcomes zusammen zu haben
             }
 
             choice = ValInp();
             
         }
-
+        // wenn oben weggelassen, dann stattdessen hier nach ende der schleife
+        // Console.WriteLine("Great you did it!");
         RestartorMenu (V3);
         Console.Clear();
 
@@ -184,11 +185,11 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
         }
 
-        counter++;
+        counter++; // statt hier beim richtigen guess um eins zu erhöhen, damit die Anzahl stimmt, könnte man auch oben mit int counter = 1; starten. Erneut Geschmacksache aber spart theoretisch ne Zeile I guess
 
         if (counter == 1) 
         {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
+            Console.WriteLine("WoW you needed only " + counter + "try!"); // da counter hier sowieso immer 1 ist, kann man auch einfach fix ne eins in den string schreiben, dann hat man nur "string" statt "string" + counter + "string"
         }
         else
         {
@@ -242,7 +243,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     }
     static void V6()
     {
-        Console.WriteLine("choose your wished range! \n" +
+        Console.WriteLine("choose your wished range! \n" + // "wished for" or "desired" or "preferred"
                            "1. 1-100 \n" +
                            "2. 100-200 \n" +
                            "3. 1-1000 ");
@@ -279,7 +280,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
             break;
         }
 
-        ValInp();
+        ValInp(); // Was passiert hier? ValInp() wird aufgerufen und der Wert nirgendwo verwendet. Ich nehme an da sollte ein `choice =` vor?
         while (choice != secnum)
         {
             counter++;
@@ -316,15 +317,15 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     }
     static void V7()
     {
-        int upperbond;
+        int upperbond; // bound nicht mit bond verwechseln
         int lowerbond;
         Console.WriteLine("you set the range to guess! \n" +
-                           "upperbond: ");
+                           "upper bond: ");
         upperbond = ValInp();
         Random random = new Random();
         Console.WriteLine("lower bond: ");
         lowerbond = ValInp();
-        Console.WriteLine("now gues: ");
+        Console.WriteLine("now guess: ");
         int choice = ValInp();
         int secnum = random.Next(lowerbond, upperbond + 1);
         int counter = 0;
@@ -417,12 +418,12 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
     #endregion
 
-    #region dependencies
+    #region dependencies // würde es eher utils (wegen utilities/utility functions) nennen. Dependencies ist im Programmierkontext meistens spezifischer für externe Bibliotheken oder Frameworks, die benötigt werden.
 
     static int ValInp()
     {
         int uinp = 0;
-        bool vinp = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is" und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
+        bool vinp = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is", "has", ... und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
 
         while (!vinp)
         {
@@ -476,7 +477,8 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
         else
         {
             Console.WriteLine("Invalid input please use 'r','m' or 'e'");
-            RestartorMenu(restartVersion);
+            RestartorMenu(restartVersion); // kann man auf jeden fall so machen. Das Fachwort hier ist Rekursion, also Code der sich (unter bestimmten Bedingungen) selbst aufruft.
+            // Rekursion wird neben Benutzerinteraktion wie hier oft verwendet um algorithmen recheneffizient aufzubauen bspw bei Sortieralogrithmen wie QuickSort
         }
     }
 

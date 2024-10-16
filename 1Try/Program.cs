@@ -34,19 +34,19 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                 "10." +
                 "11." );
 
-            int choice = ValInp();
+            int choice = ValInp(); // ValInp() könnte descriptiver benannt sein bspw GetValFromUserInp
 
             switch (choice)
             {
                 case 1:
                     V1();
-                break;
+                    break; // einige breaks waren nicht eingerückt
                 case 2:
                     V2();
-                break;
+                    break;
                 case 3:
                     V3();
-                break;
+                    break;
                 case 4:
                     V4();
                     break;
@@ -83,8 +83,8 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     static void V1()
     {
         Console.WriteLine("Easy start, guess one time: ");
-        int choice = ValInp();
-        int secnum = 5;
+        int choice = ValInp(); // Schön die input abfrage und validierung ausgelagert und wiederverwendet um redundanten code zu vermeiden
+        int secnum = 5; // variablen Benennung mit mehreren wörtern je nach naming convention entweder CamelCase oder snake_case um leichter wörter zu trennen und lesbarkeit zu erhöhen bzw verwechselungen zu vermeiden
 
 
         if (choice != secnum)
@@ -99,7 +99,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
         }
 
-        RestartorMenu(V1);
+        RestartorMenu(V1); // hier auch naming convention consistent halten (RestartOrMenu)
         Console.Clear();
     }
     static void V2()
@@ -422,14 +422,20 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     static int ValInp()
     {
         int uinp = 0;
-        bool vinp = false;
+        bool vinp = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is" und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
 
         while (!vinp)
         {
             try
             {
 
-                uinp = Convert.ToInt32(Console.ReadLine());
+                uinp = Convert.ToInt32(Console.ReadLine()); // hier könnte man input nehmen und in Int konvertieren aufsplitten für bessere lesbarkeit und leichtere Fehlersuche
+                /*
+                string rawInput = Console.ReadLine(); // vor try block
+                try
+                {
+                    uinp = Convert.ToInt32(rawInput)
+                */ 
                 vinp = true;
 
             }

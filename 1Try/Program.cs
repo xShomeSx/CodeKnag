@@ -1,46 +1,49 @@
 ﻿
-#region used Packs
+#region using
 using System;
 using System.Runtime.ExceptionServices;
 using System.Threading.Channels;
 using System.Xml.Serialization;
 #endregion
 
-#region Running what?
-class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
+#region Program
+class Program
 {
     
-    #region EinstiegsVoid
-
+    #region Main
     static void Main()
     {
 
-        bool keepPlaying = true;                                 // WahrFalsch Wert für Weiterspielen Schleife
-
-        while (keepPlaying)                                   
+        while (true) // infinite loop -> exit condition in ShowRestartOrMenuChoice                                   
         {
-            Console.WriteLine("Welcome to CodeKnagger!\n" +
-                "Number Guessing in different Variations\n" +
-                "Choose: \n" +
-                "1. One try, just Right or False \n" +
-                "2. Again only one guess now with call ><. \n" +
-                "3. Multiple tries from now on \n" +
-                "4. I count your tries! \n" +
-                "5. Randomized Number \n" +
-                "6. 3 different ranges (Modulo Operator) \n" +
-                "7. Set the range yourself. \n" +
-                "8." +
-                "9." +
-                "10." +
-                "11." );
+            
+            Console.WriteLine( // multiline string because its sexier than a bunch of + signs and \n line breaks
+                """
+                Welcome to CodeKnagger!
+                A number guessing game in different Variations.
 
-            int choice = ValInp(); // ValInp() könnte descriptiver benannt sein bspw GetValFromUserInp
+                    Type the number of your chosen variant and confirm with 'Enter':
+                    1.  One try, just Right or False
+                    2.  Again only one guess now with call > <
+                    3.  Multiple tries from now on
+                    4.  I count your tries!
+                    5.  Randomized Number
+                    6.  3 different ranges (Modulo Operator)
+                    7.  Set the range yourself
+                    8.  coming soon...
+                    9.  coming soon...
+                    10. coming soon...
+                    11. coming soon...
+                """
+            )
 
-            switch (choice)
+            int userChoice = getValidIntFromUserInput();
+
+            switch (userChoice)
             {
                 case 1:
                     V1();
-                    break; // einige breaks waren nicht eingerückt
+                    break;
                 case 2:
                     V2();
                     break;
@@ -67,14 +70,13 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                     break;
                 default:
                     Console.WriteLine("Invalid choice! Please choose a valid option! Press any button to retry.");
-                    Console.ReadLine();
+                    Console.ReadKey();
                     Console.Clear();
                     break;
 
             }
-        }                                   // Weiterspielschleife
-
-    }    //Auswahlmenü
+        }
+    }
 
     #endregion
 
@@ -82,405 +84,389 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
     static void V1()
     {
-        Console.WriteLine("Easy start, guess one time: ");
-        int choice = ValInp(); // Schön die input abfrage und validierung ausgelagert und wiederverwendet um redundanten code zu vermeiden
-        int secnum = 5; // variablen Benennung mit mehreren wörtern je nach naming convention entweder CamelCase oder snake_case um leichter wörter zu trennen und lesbarkeit zu erhöhen bzw verwechselungen zu vermeiden
+        // declare un-initialized variables first
+        int userGuessInt; // technically we could declare this upon initialization, but declaring all relevant variables at the top makes it more readable
 
+        //declare initialized variables first
+        int correctNumberToGuess = 5;
 
-        if (choice != secnum)
+        // now we can take care of the logic
+        Console.WriteLine("Simple start, guess once:\n");
+        userGuessInt = getValidIntFromUserInput();
+        
+        if (userGuessInt != correctNumberToGuess)
         {
             Console.WriteLine("Sorry, maybe next time");
-           
         }
         else
         {
-
-            Console.WriteLine("Well done!");
-
+            Console.WriteLine("Well done!\n");
         }
 
-        RestartorMenu(V1); // hier auch naming convention consistent halten (RestartOrMenu)
-        Console.Clear();
+        ShowRestartOrMenuChoice(V1);
     }
     static void V2()
     {
+        // declare un-initialized variables first
+        int userGuessInt;
 
-        Console.WriteLine("One try again, now i call if u were >< : ");
-        int choice = ValInp();
-        int secnum = 6;
+        // now declare initialized variables
+        int correctNumberToGuess = 6;
 
-        if (choice < secnum)
+        // now we can take care of the logic
+        Console.WriteLine("Again, one attempt but I'll let you know if you were too high or too low:\n");
+        userGuessInt = getValidIntFromUserInput();
+
+        if (userGuessInt == correctNumberToGuess)
         {
-            Console.WriteLine("Try a bit higher!");
-        }
-        else if (choice > secnum)
-        {
-            Console.WriteLine("Nah, its a bit to high!"); // "vergleichendes" too immer mit zwei o (too late, too much, ...)
+           Console.WriteLine("Well done!\n");
         }
         else
         {
-            Console.WriteLine("Well done!");
+            printHigherLowerText(userGuessInt, correctNumberToGuess);  // we will use this a bunch of time so lets make a function for it to reduce redundancy
         }
-        RestartorMenu(V2);
-        Console.Clear();
 
+        ShowRestartOrMenuChoice(V2);
     }
+
     static void V3()
     {
-        Console.WriteLine("Multiple tries from now on \n" +
-            "guess: ");
-        int choice = ValInp();
-        int secnum = 7;
+        // declare un-initialized variables first
+        int userGuessInt;
+
+        // now declare initialized variables
+        int correctNumberToGuess = 7;
+
+        // now we can take care of the logic
+        Console.WriteLine("Multiple tries from now on:\n");
+        userGuessInt = getValidIntFromUserInput();
         
-        while (choice != secnum)
+        while (userGuessInt != correctNumberToGuess)
         {
 
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }        
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
-            else
-            {
-                Console.WriteLine("Great you did it!"); // theoretisch kann man hier auch das else streichen und den console output wie unten im kommentar nach der schleife einfügen, da diese ja sowieso mit success endet. ist letztendlich Geschmacksache und ich finde es auch schön wie hier alle möglichen outcomes zusammen zu haben
-            }
-
-            choice = ValInp();
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
+            userGuessInt = getValidIntFromUserInput();
             
         }
-        // wenn oben weggelassen, dann stattdessen hier nach ende der schleife
-        // Console.WriteLine("Great you did it!");
-        RestartorMenu (V3);
-        Console.Clear();
 
+        Console.WriteLine("Well done!\n");
+        ShowRestartOrMenuChoice (V3);
     }
+
     static void V4()
     {
+        // declare un-initialized variables first
+        int userGuessInt;
 
-        Console.WriteLine("Multiple tries from now on with counter \n" +
-                   "guess: ");
-        int choice = ValInp();
-        int secnum = 10;
-        int counter = 0;
+        // now declare initialized variables
+        int correctNumberToGuess = 10;
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
 
-        while (choice != secnum)
+        // now we can take care of the logic
+        Console.WriteLine("Multiple tries from now on with a counter:\n");
+        userGuessInt = getValidIntFromUserInput();
+
+        while (userGuessInt != correctNumberToGuess)
         {
-            counter++;
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
-            
-            
-
-            choice = ValInp();
-            
-
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
+            userGuessInt = getValidIntFromUserInput();
+            counter++; // increment counter after every attempt
         }
 
-        counter++; // statt hier beim richtigen guess um eins zu erhöhen, damit die Anzahl stimmt, könnte man auch oben mit int counter = 1; starten. Erneut Geschmacksache aber spart theoretisch ne Zeile I guess
-
-        if (counter == 1) 
-        {
-            Console.WriteLine("WoW you needed only " + counter + "try!"); // da counter hier sowieso immer 1 ist, kann man auch einfach fix ne eins in den string schreiben, dann hat man nur "string" statt "string" + counter + "string"
-        }
-        else
-        {
-            Console.WriteLine("Great u needed "+ counter + "tries!");
-        }
-            
-        RestartorMenu(V4);
-        Console.Clear();
-
+        printSuccessTextWithCounter(counter) // this too can be moved to a function to reduce redundancy
+        ShowRestartOrMenuChoice(V4);
     }
+
     static void V5()
     {
-        Console.WriteLine("Randomized Number from now on! \n" +
-                           "guess: ");
-        int choice = ValInp();
-        int secnum = new Random().Next();
-        int counter = 0;
+        // declare un-initialized variables first
+        int userGuessInt;
 
-        while (choice != secnum)
+        // now declare initialized variables
+        int correctNumberToGuess = new Random().Next();
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
+
+        // now we can take care of the logic
+        Console.WriteLine("Randomized number from now on!:\n");
+        userGuessInt = getValidIntFromUserInput();
+
+        while (userGuessInt != correctNumberToGuess)
         {
-            counter++;
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
 
-
-
-            choice = ValInp();
-
-
+            userGuessInt = getValidIntFromUserInput();
+            counter++; // increment counter after every attempt
         }
 
-        counter++;
-
-        if (counter == 1)
-        {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
-        }
-        else
-        {
-            Console.WriteLine("Great u needed " + counter + "tries!");
-        }
-
-        RestartorMenu(V5);
-        Console.Clear();
+        printSuccessTextWithCounter(counter)
+        ShowRestartOrMenuChoice(V5);
     }
+
     static void V6()
     {
-        Console.WriteLine("choose your wished range! \n" + // "wished for" or "desired" or "preferred"
-                           "1. 1-100 \n" +
-                           "2. 100-200 \n" +
-                           "3. 1-1000 ");
+        // declare un-initialized variables first
+        int userGuessInt;
+        int chosenRangeOption; // this choice has a very different purpose from the last one, so lets keep them in separate variables
+
+        // now declare initialized variables
         Random random = new Random();
-        int choice = ValInp();
-        int secnum = 0;                       
-        int counter = 0;
+        bool isValidOption = true; // assume the option is valid until proven otherwise (default)
+        int correctNumberToGuess = 0;                       
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
 
+        // now we can take care of the logic
+        Console.WriteLine(
+                """
+                Please choose your desired range:
+                    1. 1-100
+                    2. 100-200
+                    3. 1-1000
+                """
+            );
 
-        switch (choice)
+        do // use do-while to execute once and check condition only after that
         {
-            case 1:
-                {
-                    Console.WriteLine("chosen range: 1-100");
-                    secnum = random.Next() % 100 + 1;
-                }
-            break;
-            case 2:
-                {
-                    Console.WriteLine("choosen range: 100-200");
-                    secnum = random.Next() % 100 + 100;
-                }
-            break;
-            case 3:
-                {
-                    Console.WriteLine("choosen range: 1-1000");
-                    secnum = random.Next() % 1000 + 1;
-                }
-            break;
-            default:
+            chosenRangeOption = getValidIntFromUserInput();
+        
+            switch (chosenRangeOption)
             {
-
+                case 1:
+                    Console.WriteLine("chosen range: 1-100\n");
+                    correctNumberToGuess = random.Next() % 100 + 1;
+                    break;
+                case 2:
+                    Console.WriteLine("chosen range: 100-200\n");
+                    correctNumberToGuess = random.Next() % 100 + 100;
+                    break;
+                case 3:
+                    Console.WriteLine("chosen range: 1-1000\n");
+                    correctNumberToGuess = random.Next() % 1000 + 1;
+                    break;
+                default:
+                    Console.WriteLine("Invalid choice! Please choose a valid option!\n");
+                    isValidOption = false;
+                    break;
             }
-            break;
-        }
 
-        ValInp(); // Was passiert hier? ValInp() wird aufgerufen und der Wert nirgendwo verwendet. Ich nehme an da sollte ein `choice =` vor?
-        while (choice != secnum)
+        } while (!isValidOption); // if the option chosen by the user is not valid, the loop will run again
+
+        // user has made a valid range choice, now we can start guessing
+        Console.WriteLine("Guess now:\n");
+        userGuessInt = getValidIntFromUserInput();
+
+        while (userGuessInt != correctNumberToGuess)
         {
             counter++;
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            choice = ValInp();
-
-
+            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            userGuessInt = getValidIntFromUserInput();
         }
 
-        counter++;
-
-        if (counter == 1)
-        {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
-        }
-        else
-        {
-            Console.WriteLine("Great u needed " + counter + "tries!");
-        }
-
-        RestartorMenu(V6);
-        Console.Clear();
-
+        printSuccessTextWithCounter(counter)
+        ShowRestartOrMenuChoice(V6);
     }
+
     static void V7()
     {
-        int upperbond; // bound nicht mit bond verwechseln
-        int lowerbond;
-        Console.WriteLine("you set the range to guess! \n" +
-                           "upper bond: ");
-        upperbond = ValInp();
-        Random random = new Random();
-        Console.WriteLine("lower bond: ");
-        lowerbond = ValInp();
-        Console.WriteLine("now guess: ");
-        int choice = ValInp();
-        int secnum = random.Next(lowerbond, upperbond + 1);
-        int counter = 0;
+        // declare un-initialized variables first
+        int upperBound;
+        int lowerBound;
+        int userGuessInt;
+        int correctNumberToGuess; // technically we can declare it when initializing it, but this seems cleaner and more readable
+
+        // now declare initialized variables
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
+
+        // now we can take care of the logic
+        Console.WriteLine("You set the range to guess!\nupper bound:\n");
+        upperBound = getValidIntFromUserInput();
+        Console.WriteLine("lower bound:\n");
+        lowerbond = getValidIntFromUserInput();
+        Console.Clear() // user made their choice, let's clean up the screen before they guess
+        Console.WriteLine("chosen range: " + lowerBound + "-" + upperBound + "\n");
+
+        // now that the bounds are set, lets generate the random number and start the guessing
+        correctNumberToGuess = new Random().Next(lowerBound, upperBound + 1);
+        Console.WriteLine("Guess now:\n");
+        userGuessInt = getValidIntFromUserInput();
         
-
-        while (choice != secnum)
+        while (userGuessInt != correctNumberToGuess)
         {
-            counter++;
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            choice = ValInp();
-
-
+            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            userGuessInt = getValidIntFromUserInput();
+            counter++; // increment counter after every attempt
         }
 
-        counter++;
-
-        if (counter == 1)
-        {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
-        }
-        else
-        {
-            Console.WriteLine("Great u needed " + counter + "tries!");
-        }
-
-        RestartorMenu(V5);
-        Console.Clear();
- 
+        printSuccessTextWithCounter(counter)
+        ShowRestartOrMenuChoice(V5); 
     }
-    static void V8()
+
+    static void V8(int upperBound = 1000, int lowerBound = 10000, int optimizedMaxAttempts = 13) // lets define the bounds as parameters with default values to make it easier to change them if ever necessary
     {
-       Random random = new Random();
+        // declare un-initialized variables first
+        int userGuessInt;
+
+        // now declare initialized variables
+        int correctNumberToGuess = new Random().Next(upperBound, lowerBound + 1);
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
+
         Console.WriteLine("Ill rate your tries, range is 1000-10000! \n" +
                             "guess: ");
-        int choice = ValInp();
-        int secnum = random.Next() % 10000 + 1000 + 1;
-        int counter = 0;
-
-        while (choice != secnum)
+        userGuessInt = getValidIntFromUserInput();
+        
+        while (userGuessInt != correctNumberToGuess)
         {
             counter++;
-            if (choice < secnum)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (choice > secnum)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            choice = ValInp();
-
-
+            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            userGuessInt = getValidIntFromUserInput();
         }
 
-        counter++;
-
-        if (counter < 14)
-        {
-            Console.WriteLine("WoW you only needed " + counter + "tries!");
-        }
-        else if (choice > 14)
-        {
-            Console.WriteLine("Nah its ok but maybe there is a better tactic? you needed" + counter + "tries!");
-        }
-        else if (choice == 13 || counter == 14)
-        {
-            Console.WriteLine("Good job you needed " + counter + "tries! Thats pretty good!");
-        }
-
-        RestartorMenu(V5);
-        Console.Clear();
+        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts) // we will re-use this too, so lets make a function for it to reduce redundancy
+        ShowRestartOrMenuChoice(V5);
     }
+
     static void V9()
     {
-        Console.Clear();
+        // declare un-initialized variables first
+        int upperBound;
+        int lowerBound;
+        int userGuessInt;
+        int correctNumberToGuess;
+        int optimizedMaxAttempts;
+
+        // now declare initialized variables
+        int counter = 1; // start counter at '1' because there must always be at least one attempt
+
+        // now we can take care of the logic
+        Console.WriteLine("You set the range to guess!\nupper bound:\n");
+        upperBound = getValidIntFromUserInput();
+        Console.WriteLine("lower bound:\n");
+        lowerbond = getValidIntFromUserInput();
+        Console.Clear() // user made their choice, let's clean up the screen before they guess
+        Console.WriteLine("chosen range: " + lowerBound + "-" + upperBound + "\n");
+
+        // now that the bounds are set we determine the optimized number of attempts
+        optimizedMaxAttempts = getOptimizedMaxAttempts(upperBound - lowerBound);
+
+        // now that we have that, lets generate the random number and start the guessing
+        correctNumberToGuess = new Random().Next(lowerBound, upperBound + 1);
+        Console.WriteLine("Guess now:\n");
+        userGuessInt = getValidIntFromUserInput();
+        
+        while (userGuessInt != correctNumberToGuess)
+        {
+            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            userGuessInt = getValidIntFromUserInput();
+            counter++; // increment counter after every attempt
+        }
+
+        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts)
+        ShowRestartOrMenuChoice(V5); 
     }
 
     #endregion
 
-    #region dependencies // würde es eher utils (wegen utilities/utility functions) nennen. Dependencies ist im Programmierkontext meistens spezifischer für externe Bibliotheken oder Frameworks, die benötigt werden.
+    #region HelperFunctions
 
-    static int ValInp()
+    static int getValidIntFromUserInput()
     {
-        int uinp = 0;
-        bool vinp = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is", "has", ... und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
+        bool isValidInput = false;
 
-        while (!vinp)
+        while (!isValidInput)
         {
+            string rawUserInputString = Console.ReadLine();
+
             try
             {
-
-                uinp = Convert.ToInt32(Console.ReadLine()); // hier könnte man input nehmen und in Int konvertieren aufsplitten für bessere lesbarkeit und leichtere Fehlersuche
-                /*
-                string rawInput = Console.ReadLine(); // vor try block
-                try
-                {
-                    uinp = Convert.ToInt32(rawInput)
-                */ 
-                vinp = true;
-
+                userInputInt = Convert.ToInt32(rawUserInputString.Trim());
+                isValidInput = true;
+                return userInputInt;
             }
             catch (FormatException)
             {
-
-                Console.WriteLine("Invalid Input!");
-
+                Console.WriteLine("Invalid Input! Please enter the number of your choice");
             }
         }
-        return uinp;
     }
 
-    static void RestartorMenu(Action restartVersion)
+    static void ShowRestartOrMenuChoice(Action lastVariantAction)
     {
         Console.WriteLine("Restart (r)\n" +
-            "go to MainMenu? (m)\n" +
-            "End Game 'e'");
-        char choice = Console.ReadKey().KeyChar;
+            "Main Menu? (m)\n" +
+            "Quit (q)");
+        char userInputCharacter = Console.ReadKey().KeyChar;
         Console.WriteLine();
 
-        if (choice == 'r')
+        switch(userInputCharacter)
         {
-            Console.Clear();
-            restartVersion(); // die Idee ist cool, schön umgesetzt die Funktion als Action mitzugeben und aufzurufen
+            case 'r':
+                Console.Clear();
+                lastVariantAction();
+                break;
+            case 'm':
+                Console.Clear();
+                return;
+                break;
+            case 'q':
+                Console.Clear();
+                Console.WriteLine("Thanks for playing and until next time! \nPress any key to quit...");
+                Console.ReadKey()
+                Environment.Exit(0);
+                break;
+            default:
+                Console.WriteLine("Invalid input please use 'r','m' or 'q'");
+                ShowRestartOrMenuChoice(lastVariantAction);
+                break;
         }
-        else if (choice == 'm')
+    }
+
+    static void printHigherLowerText(int userGuessInt, int correctNumberToGuess)
+    {
+        if (userGuessInt < correctNumberToGuess)
+            {
+                Console.WriteLine("Guess a bit higher!\n");
+            }
+            else if (userGuessInt > correctNumberToGuess)
+            {
+                Console.WriteLine("Too high!\n");
+            }
+    }
+
+    static void printSuccessTextWithCounter(int counter)
+    {
+
+        if (counter == 1) 
         {
-            Console.Clear();
-            return;
-        }
-        else if (choice == 'e')
-        {
-            Console.Clear();
-            Environment.Exit(0);
-            Console.WriteLine("Until next time!");
+            Console.WriteLine("Wow, you only needed a single try!\n");
         }
         else
         {
-            Console.WriteLine("Invalid input please use 'r','m' or 'e'");
-            RestartorMenu(restartVersion); // kann man auf jeden fall so machen. Das Fachwort hier ist Rekursion, also Code der sich (unter bestimmten Bedingungen) selbst aufruft.
-            // Rekursion wird neben Benutzerinteraktion wie hier oft verwendet um algorithmen recheneffizient aufzubauen bspw bei Sortieralogrithmen wie QuickSort
+            Console.WriteLine("Well done! You needed a total of "+ counter + "attempts!\n");
+        }
+
+    }
+
+    static void printSuccessTextWithCounterFeedback(int counter, int optimizedMaxAttempts)
+    {
+        if (counter < opoptimizedMaxAttemptstimalTries)
+        {
+            Console.WriteLine("Wow, you only needed " + counter + " attempts! You got lucky there!");
+        }
+        else if (userGuessInt > optimizedMaxAttempts)
+        {
+            Console.WriteLine("You did it after " + counter + " attempts! Is there maybe a tactic to get it more quickly?");
+        }
+        else if (counter == optimizedMaxAttempts)
+        {
+            Console.WriteLine("Good job, you needed " + counter + "attempts! Thats pretty good!");
         }
     }
+
+    static int getOptimizedMaxAttempts(int range)
+    {
+        // to determine the max number of attempts when making mathematically optimal guesses take log2 of 'range' rounded up
+        return (int)Math.Ceiling(Math.Log2(range));
+    }
+
 
     #endregion
 }

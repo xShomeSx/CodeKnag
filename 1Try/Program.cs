@@ -16,7 +16,7 @@ class Program
 
         while (true) // infinite loop -> exit condition in ShowRestartOrMenuChoice                                   
         {
-            
+
             Console.WriteLine( // multiline string because its sexier than a bunch of + signs and \n line breaks
                 """
                 Welcome to CodeKnagger!
@@ -35,7 +35,7 @@ class Program
                     10. coming soon...
                     11. coming soon...
                 """
-            )
+            );
 
             int userChoice = getValidIntFromUserInput();
 
@@ -173,7 +173,7 @@ class Program
             counter++; // increment counter after every attempt
         }
 
-        printSuccessTextWithCounter(counter) // this too can be moved to a function to reduce redundancy
+        printSuccessTextWithCounter(counter); // this too can be moved to a function to reduce redundancy
         ShowRestartOrMenuChoice(V4);
     }
 
@@ -198,7 +198,7 @@ class Program
             counter++; // increment counter after every attempt
         }
 
-        printSuccessTextWithCounter(counter)
+        printSuccessTextWithCounter(counter);
         ShowRestartOrMenuChoice(V5);
     }
 
@@ -257,11 +257,11 @@ class Program
         while (userGuessInt != correctNumberToGuess)
         {
             counter++;
-            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
             userGuessInt = getValidIntFromUserInput();
         }
 
-        printSuccessTextWithCounter(counter)
+        printSuccessTextWithCounter(counter);
         ShowRestartOrMenuChoice(V6);
     }
 
@@ -280,8 +280,8 @@ class Program
         Console.WriteLine("You set the range to guess!\nupper bound:\n");
         upperBound = getValidIntFromUserInput();
         Console.WriteLine("lower bound:\n");
-        lowerbond = getValidIntFromUserInput();
-        Console.Clear() // user made their choice, let's clean up the screen before they guess
+        lowerBound = getValidIntFromUserInput();
+        Console.Clear(); // user made their choice, let's clean up the screen before they guess
         Console.WriteLine("chosen range: " + lowerBound + "-" + upperBound + "\n");
 
         // now that the bounds are set, lets generate the random number and start the guessing
@@ -291,12 +291,12 @@ class Program
         
         while (userGuessInt != correctNumberToGuess)
         {
-            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
             userGuessInt = getValidIntFromUserInput();
             counter++; // increment counter after every attempt
         }
 
-        printSuccessTextWithCounter(counter)
+        printSuccessTextWithCounter(counter);
         ShowRestartOrMenuChoice(V5); 
     }
 
@@ -316,11 +316,11 @@ class Program
         while (userGuessInt != correctNumberToGuess)
         {
             counter++;
-            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
             userGuessInt = getValidIntFromUserInput();
         }
 
-        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts) // we will re-use this too, so lets make a function for it to reduce redundancy
+        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts); // we will re-use this too, so lets make a function for it to reduce redundancy
         ShowRestartOrMenuChoice(V5);
     }
 
@@ -340,8 +340,8 @@ class Program
         Console.WriteLine("You set the range to guess!\nupper bound:\n");
         upperBound = getValidIntFromUserInput();
         Console.WriteLine("lower bound:\n");
-        lowerbond = getValidIntFromUserInput();
-        Console.Clear() // user made their choice, let's clean up the screen before they guess
+        lowerBound = getValidIntFromUserInput();
+        Console.Clear(); // user made their choice, let's clean up the screen before they guess
         Console.WriteLine("chosen range: " + lowerBound + "-" + upperBound + "\n");
 
         // now that the bounds are set we determine the optimized number of attempts
@@ -354,12 +354,12 @@ class Program
         
         while (userGuessInt != correctNumberToGuess)
         {
-            printHigherLowerText(userGuessInt, correctNumberToGuess)
+            printHigherLowerText(userGuessInt, correctNumberToGuess);
             userGuessInt = getValidIntFromUserInput();
             counter++; // increment counter after every attempt
         }
 
-        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts)
+        printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts);
         ShowRestartOrMenuChoice(V5); 
     }
 
@@ -370,6 +370,7 @@ class Program
     static int getValidIntFromUserInput()
     {
         bool isValidInput = false;
+        int userInputInt = -1; // this should logically never be returned as -1 but compiler is worried about it not being declared in some code paths
 
         while (!isValidInput)
         {
@@ -380,12 +381,14 @@ class Program
                 userInputInt = Convert.ToInt32(rawUserInputString.Trim());
                 isValidInput = true;
                 return userInputInt;
+
             }
             catch (FormatException)
             {
                 Console.WriteLine("Invalid Input! Please enter the number of your choice");
             }
         }
+        return userInputInt; // this can't ever be reached under normal circumstances
     }
 
     static void ShowRestartOrMenuChoice(Action lastVariantAction)
@@ -409,7 +412,7 @@ class Program
             case 'q':
                 Console.Clear();
                 Console.WriteLine("Thanks for playing and until next time! \nPress any key to quit...");
-                Console.ReadKey()
+                Console.ReadKey();
                 Environment.Exit(0);
                 break;
             default:
@@ -447,11 +450,11 @@ class Program
 
     static void printSuccessTextWithCounterFeedback(int counter, int optimizedMaxAttempts)
     {
-        if (counter < opoptimizedMaxAttemptstimalTries)
+        if (counter < optimizedMaxAttempts)
         {
             Console.WriteLine("Wow, you only needed " + counter + " attempts! You got lucky there!");
         }
-        else if (userGuessInt > optimizedMaxAttempts)
+        else if (counter > optimizedMaxAttempts)
         {
             Console.WriteLine("You did it after " + counter + " attempts! Is there maybe a tactic to get it more quickly?");
         }

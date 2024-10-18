@@ -22,7 +22,7 @@ class Program
                 Welcome to CodeKnagger!
                 A number guessing game in different Variations.
 
-                    Type the number of your chosen variant and confirm with 'Enter':
+                Type the number of your chosen variant and confirm with 'Enter':
                     1.  One try, just Right or False
                     2.  Again only one guess now with call > <
                     3.  Multiple tries from now on
@@ -30,8 +30,8 @@ class Program
                     5.  Randomized Number
                     6.  3 different ranges (Modulo Operator)
                     7.  Set the range yourself
-                    8.  coming soon...
-                    9.  coming soon...
+                    8.  I rate your total attempts, range is 1000-10000
+                    9.  I rate your total attempts, set the range yourself
                     10. coming soon...
                     11. coming soon...
                 """
@@ -443,7 +443,7 @@ class Program
         }
         else
         {
-            Console.WriteLine("Well done! You needed a total of "+ counter + "attempts!\n");
+            Console.WriteLine("Well done! You needed a total of "+ counter + " attempts!\n");
         }
 
     }
@@ -460,7 +460,7 @@ class Program
         }
         else if (counter == optimizedMaxAttempts)
         {
-            Console.WriteLine("Good job, you needed " + counter + "attempts! Thats pretty good!");
+            Console.WriteLine("Good job, you needed " + counter + " attempts! Thats pretty good!");
         }
     }
 

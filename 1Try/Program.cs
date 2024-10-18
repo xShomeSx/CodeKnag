@@ -297,15 +297,18 @@ class Program
         }
 
         printSuccessTextWithCounter(counter);
-        ShowRestartOrMenuChoice(V5); 
+        ShowRestartOrMenuChoice(V7); 
     }
 
-    static void V8(int upperBound = 1000, int lowerBound = 10000, int optimizedMaxAttempts = 13) // lets define the bounds as parameters with default values to make it easier to change them if ever necessary
+    static void V8() 
     {
         // declare un-initialized variables first
         int userGuessInt;
 
         // now declare initialized variables
+        const int upperBound = 1000;
+        const int lowerBound = 10000;
+        const int optimizedMaxAttempts = 13;// lets define the bounds and such as constants (unchangeable variables) to make it easier to change them if ever necessary
         int correctNumberToGuess = new Random().Next(upperBound, lowerBound + 1);
         int counter = 1; // start counter at '1' because there must always be at least one attempt
 
@@ -321,7 +324,7 @@ class Program
         }
 
         printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts); // we will re-use this too, so lets make a function for it to reduce redundancy
-        ShowRestartOrMenuChoice(V5);
+        ShowRestartOrMenuChoice(V8);
     }
 
     static void V9()
@@ -360,7 +363,7 @@ class Program
         }
 
         printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts);
-        ShowRestartOrMenuChoice(V5); 
+        ShowRestartOrMenuChoice(V9); 
     }
 
     #endregion
@@ -408,7 +411,6 @@ class Program
             case 'm':
                 Console.Clear();
                 return;
-                break;
             case 'q':
                 Console.Clear();
                 Console.WriteLine("Thanks for playing and until next time! \nPress any key to quit...");

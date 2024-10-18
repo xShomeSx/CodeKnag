@@ -1,13 +1,4 @@
-﻿
-#region using
-using System;
-using System.Diagnostics.Metrics;
-using System.Runtime.ExceptionServices;
-using System.Threading.Channels;
-using System.Xml.Serialization;
-#endregion
-
-#region Program
+﻿#region Program
 class Program
 {
     
@@ -33,8 +24,7 @@ class Program
                     7.  Set the range yourself
                     8.  I rate your total attempts, range is 1000-10000
                     9.  I rate your total attempts, set the range yourself
-                    10. coming soon...
-                    11. coming soon...
+                    10. You choose a range and think of a number for me to guess
                 """
             );
 
@@ -375,7 +365,6 @@ class Program
         // declare un-initialized variables first
         int upperBound;
         int lowerBound;
-        int userNumber;
 
         // now we can take care of the logic
         Console.WriteLine("You set the range, I'll guess the number!\nupper bound:\n");
@@ -436,7 +425,6 @@ class Program
             case 'm':
                 Console.Clear();
                 return;
-                break;
             case 'q':
                 Console.Clear();
                 Console.WriteLine("Thanks for playing and until next time! \nPress any key to quit...");
@@ -529,6 +517,10 @@ class Program
             Console.WriteLine("Something went wrong. Please ensure the lower bound is less than or equal to the upper bound.");
             return guessCount; // or throw an exception
         }
+
+        // Calculate middle point: (upper - lower) finds the range, /2 divides it in half,
+        // + lowerBound shifts it to the correct position within the range.
+        // This simplifies to (lower + upper) / 2 for more efficiency.
         int guess = (lowerBound + upperBound) / 2;
         Console.WriteLine("Is your number " + guess + "? (y/h/l)");
         ConsoleKeyInfo keyInfo = Console.ReadKey(true); // true hides the pressed key

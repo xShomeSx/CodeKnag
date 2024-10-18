@@ -1,6 +1,7 @@
 ﻿
 #region using
 using System;
+using System.Diagnostics.Metrics;
 using System.Runtime.ExceptionServices;
 using System.Threading.Channels;
 using System.Xml.Serialization;
@@ -67,6 +68,9 @@ class Program
                     break;
                 case 9:
                     V9();
+                    break;
+                case 10:
+                    V10();
                     break;
                 default:
                     Console.WriteLine("Invalid choice! Please choose a valid option! Press any button to retry.");
@@ -297,15 +301,18 @@ class Program
         }
 
         printSuccessTextWithCounter(counter);
-        ShowRestartOrMenuChoice(V5); 
+        ShowRestartOrMenuChoice(V7); 
     }
 
-    static void V8(int upperBound = 1000, int lowerBound = 10000, int optimizedMaxAttempts = 13) // lets define the bounds as parameters with default values to make it easier to change them if ever necessary
+    static void V8() 
     {
         // declare un-initialized variables first
         int userGuessInt;
 
         // now declare initialized variables
+        int upperBound = 1000; // lets define the bounds and such as vars make it easier to change them if ever necessary
+        int lowerBound = 10000;
+        int optimizedMaxAttempts = 13;
         int correctNumberToGuess = new Random().Next(upperBound, lowerBound + 1);
         int counter = 1; // start counter at '1' because there must always be at least one attempt
 
@@ -321,7 +328,7 @@ class Program
         }
 
         printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts); // we will re-use this too, so lets make a function for it to reduce redundancy
-        ShowRestartOrMenuChoice(V5);
+        ShowRestartOrMenuChoice(V8);
     }
 
     static void V9()
@@ -360,7 +367,28 @@ class Program
         }
 
         printSuccessTextWithCounterFeedback(counter, optimizedMaxAttempts);
-        ShowRestartOrMenuChoice(V5); 
+        ShowRestartOrMenuChoice(V9); 
+    }
+
+    static void V10()
+    {
+        // declare un-initialized variables first
+        int upperBound;
+        int lowerBound;
+        int userNumber;
+
+        // now we can take care of the logic
+        Console.WriteLine("You set the range, I'll guess the number!\nupper bound:\n");
+        upperBound = getValidIntFromUserInput();
+        Console.WriteLine("lower bound:\n");
+        lowerBound = getValidIntFromUserInput();
+        Console.Clear(); // user made their choice, let's clean up the screen before they guess
+        Console.WriteLine("chosen range: " + lowerBound + "-" + upperBound + "\n");
+        Console.WriteLine("Think of a number within this range.");
+        // Start the recursive guessing process
+        int guessCount = GuessNumberRecursively(lowerBound, upperBound, 1);
+        printSuccessTextWithCounterFeedback(guessCount, getOptimizedMaxAttempts(upperBound - lowerBound), true);
+        ShowRestartOrMenuChoice(V5);
     }
 
     #endregion
@@ -448,19 +476,43 @@ class Program
 
     }
 
-    static void printSuccessTextWithCounterFeedback(int counter, int optimizedMaxAttempts)
+    static void printSuccessTextWithCounterFeedback(int counter, int optimizedMaxAttempts, bool isCodeGuessing=false)
     {
+        /**
+        * In the next line of code is a ternary operator which is used to assign a value to the variable 'pronoun'
+        * based on the condition 'isCodeGuessing'. 
+        * 
+        * Syntax:
+        * <condition> ? <true-value> : <false-value>;
+        * 
+        * If 'isCodeGuessing' is true, 'pronoun' is assigned the value "I".
+        * Otherwise, 'pronoun' is assigned the value "You".
+        * 
+        * Equivalent if-else logic would look like this:
+        * 
+        * if (isCodeGuessing)
+        * {
+        *     pronoun = "I";
+        * }
+        * else
+        * {
+        *     pronoun = "You";
+        * }
+        * 
+        * The ternary operator allows for more concise code by replacing this if-else block. It should be used for simple if-else value assignments.
+        */
+        string pronoun = isCodeGuessing ? "I" : "You";
         if (counter < optimizedMaxAttempts)
         {
-            Console.WriteLine("Wow, you only needed " + counter + " attempts! You got lucky there!");
+            Console.WriteLine("Wow! " + pronoun + " only needed " + counter + " attempts! You got lucky there!");
         }
         else if (counter > optimizedMaxAttempts)
         {
-            Console.WriteLine("You did it after " + counter + " attempts! Is there maybe a tactic to get it more quickly?");
+            Console.WriteLine(pronoun + " did it after " + counter + " attempts! Is there maybe a tactic to get it more quickly?");
         }
         else if (counter == optimizedMaxAttempts)
         {
-            Console.WriteLine("Good job, you needed " + counter + " attempts! Thats pretty good!");
+            Console.WriteLine("Good job! " + pronoun + " needed " + counter + " attempts! Thats pretty good!");
         }
     }
 
@@ -468,6 +520,30 @@ class Program
     {
         // to determine the max number of attempts when making mathematically optimal guesses take log2 of 'range' rounded up
         return (int)Math.Ceiling(Math.Log2(range));
+    }
+
+    static int GuessNumberRecursively(int lowerBound, int upperBound, int guessCount)
+    {
+        if (lowerBound > upperBound)
+        {
+            Console.WriteLine("Something went wrong. Please ensure the lower bound is less than or equal to the upper bound.");
+            return guessCount; // or throw an exception
+        }
+        int guess = (lowerBound + upperBound) / 2;
+        Console.WriteLine("Is your number " + guess + "? (y/h/l)");
+        ConsoleKeyInfo keyInfo = Console.ReadKey(true); // true hides the pressed key
+        switch (keyInfo.Key)
+        {
+            case ConsoleKey.Y:
+                return guessCount;
+            case ConsoleKey.H:
+                return GuessNumberRecursively(guess + 1, upperBound, guessCount + 1);
+            case ConsoleKey.L:
+                return GuessNumberRecursively(lowerBound, guess - 1, guessCount + 1);
+            default:
+                Console.WriteLine("Invalid input. Please press 'y', 'h', or 'l'.");
+                return GuessNumberRecursively(lowerBound, upperBound, guessCount);
+        }
     }
 
 

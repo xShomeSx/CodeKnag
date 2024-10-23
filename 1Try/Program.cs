@@ -1,4 +1,3 @@
-﻿
 #region used Packs
 using System;
 using System.Runtime.ExceptionServices;
@@ -9,7 +8,7 @@ using System.Xml.Serialization;
 #region Running what?
 class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 {
-    
+
     #region EinstiegsVoid
 
     static void Main()
@@ -17,7 +16,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
         bool keepPlaying = true;                                 // WahrFalsch Wert für Weiterspielen Schleife
 
-        while (keepPlaying)                                   
+        while (keepPlaying)
         {
             Console.WriteLine("Welcome to CodeKnagger!\n" +
                 "Number Guessing in different Variations\n" +
@@ -32,11 +31,11 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                 "8." +
                 "9." +
                 "10." +
-                "11." );
+                "11.");
 
-            int choice = ValInp(); // ValInp() könnte descriptiver benannt sein bspw GetValFromUserInp
+            int Choice = Valid_Input(); // ValInp() könnte descriptiver benannt sein bspw GetValFromUserInp
 
-            switch (choice)
+            switch (Choice)
             {
                 case 1:
                     V1();
@@ -72,9 +71,9 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                     break;
 
             }
-        }                                   // Weiterspielschleife
+        }                                   
 
-    }    //Auswahlmenü
+    }    
 
     #endregion
 
@@ -83,14 +82,14 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     static void V1()
     {
         Console.WriteLine("Easy start, guess one time: ");
-        int choice = ValInp(); // Schön die input abfrage und validierung ausgelagert und wiederverwendet um redundanten code zu vermeiden
-        int secnum = 5; // variablen Benennung mit mehreren wörtern je nach naming convention entweder CamelCase oder snake_case um leichter wörter zu trennen und lesbarkeit zu erhöhen bzw verwechselungen zu vermeiden
+        int Choice = Valid_Input();
+        int Secret_Number = 5;
 
 
-        if (choice != secnum)
+        if (Choice != Secret_Number)
         {
             Console.WriteLine("Sorry, maybe next time");
-           
+
         }
         else
         {
@@ -99,21 +98,21 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
         }
 
-        RestartorMenu(V1); // hier auch naming convention consistent halten (RestartOrMenu)
+        Restart_Or_Menu(V1); 
         Console.Clear();
     }
     static void V2()
     {
 
         Console.WriteLine("One try again, now i call if u were >< : ");
-        int choice = ValInp();
-        int secnum = 6;
+        int Choice = Valid_Input();
+        int Secret_Number = 6;
 
-        if (choice < secnum)
+        if (Choice < Secret_Number)
         {
             Console.WriteLine("Try a bit higher!");
         }
-        else if (choice > secnum)
+        else if (Choice > Secret_Number)
         {
             Console.WriteLine("Nah, its a bit to high!"); // "vergleichendes" too immer mit zwei o (too late, too much, ...)
         }
@@ -121,7 +120,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
         {
             Console.WriteLine("Well done!");
         }
-        RestartorMenu(V2);
+        Restart_Or_Menu(V2);
         Console.Clear();
 
     }
@@ -129,17 +128,17 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     {
         Console.WriteLine("Multiple tries from now on \n" +
             "guess: ");
-        int choice = ValInp();
-        int secnum = 7;
-        
-        while (choice != secnum)
+        int Choice = Valid_Input();
+        int Secret_Number = 7;
+
+        while (Choice != Secret_Number)
         {
 
-            if (choice < secnum)
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
-            }        
-            else if (choice > secnum)
+            }
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
@@ -148,12 +147,12 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
                 Console.WriteLine("Great you did it!"); // theoretisch kann man hier auch das else streichen und den console output wie unten im kommentar nach der schleife einfügen, da diese ja sowieso mit success endet. ist letztendlich Geschmacksache und ich finde es auch schön wie hier alle möglichen outcomes zusammen zu haben
             }
 
-            choice = ValInp();
-            
+            Choice = Valid_Input();
+
         }
         // wenn oben weggelassen, dann stattdessen hier nach ende der schleife
         // Console.WriteLine("Great you did it!");
-        RestartorMenu (V3);
+        Restart_Or_Menu(V3);
         Console.Clear();
 
     }
@@ -162,41 +161,41 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
         Console.WriteLine("Multiple tries from now on with counter \n" +
                    "guess: ");
-        int choice = ValInp();
-        int secnum = 10;
-        int counter = 0;
+        int Choice = Valid_Input();
+        int Secret_Number = 10;
+        int Counter = 1;
 
-        while (choice != secnum)
+        while (Choice != Secret_Number)
         {
-            counter++;
-            if (choice < secnum)
+            Counter++;
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
             }
-            else if (choice > secnum)
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
-            
-            
 
-            choice = ValInp();
-            
+
+
+            Choice = Valid_Input();
+
 
         }
 
-        counter++; // statt hier beim richtigen guess um eins zu erhöhen, damit die Anzahl stimmt, könnte man auch oben mit int counter = 1; starten. Erneut Geschmacksache aber spart theoretisch ne Zeile I guess
+        Counter++; // statt hier beim richtigen guess um eins zu erhöhen, damit die Anzahl stimmt, könnte man auch oben mit int counter = 1; starten. Erneut Geschmacksache aber spart theoretisch ne Zeile I guess
 
-        if (counter == 1) 
+        if (Counter == 1)
         {
-            Console.WriteLine("WoW you needed only " + counter + "try!"); // da counter hier sowieso immer 1 ist, kann man auch einfach fix ne eins in den string schreiben, dann hat man nur "string" statt "string" + counter + "string"
+            Console.WriteLine("WoW you needed only " + Counter + " try!"); // da counter hier sowieso immer 1 ist, kann man auch einfach fix ne eins in den string schreiben, dann hat man nur "string" statt "string" + counter + "string"
         }
         else
         {
-            Console.WriteLine("Great u needed "+ counter + "tries!");
+            Console.WriteLine("Great u needed " + Counter + " tries!");
         }
-            
-        RestartorMenu(V4);
+
+        Restart_Or_Menu(V4);
         Console.Clear();
 
     }
@@ -204,211 +203,208 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
     {
         Console.WriteLine("Randomized Number from now on! \n" +
                            "guess: ");
-        int choice = ValInp();
-        int secnum = new Random().Next();
-        int counter = 0;
+        int Choice = Valid_Input();
+        int Secret_Number = new Random().Next();
+        int Counter = 1;
 
-        while (choice != secnum)
+        while (Choice != Secret_Number)
         {
-            counter++;
-            if (choice < secnum)
+            Counter++;
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
             }
-            else if (choice > secnum)
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
 
 
 
-            choice = ValInp();
+            Choice = Valid_Input();
 
 
         }
 
-        counter++;
 
-        if (counter == 1)
+        if (Counter == 1)
         {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
+            Console.WriteLine("WoW you needed only " + Counter + "try!");
         }
         else
         {
-            Console.WriteLine("Great u needed " + counter + "tries!");
+            Console.WriteLine("Great u needed " + Counter + "tries!");
         }
 
-        RestartorMenu(V5);
+        Restart_Or_Menu(V5);
         Console.Clear();
     }
     static void V6()
     {
-        Console.WriteLine("choose your wished range! \n" + // "wished for" or "desired" or "preferred"
+        Console.WriteLine("choose your wished range! \n" + 
                            "1. 1-100 \n" +
                            "2. 100-200 \n" +
                            "3. 1-1000 ");
-        Random random = new Random();
-        int choice = ValInp();
-        int secnum = 0;                       
-        int counter = 0;
+        Random RandomNumber = new Random();
+        int Choice = Valid_Input();
+        int Secret_Number = 0;
+        int Counter = 1;
 
 
-        switch (choice)
+        switch (Choice)
         {
             case 1:
                 {
                     Console.WriteLine("chosen range: 1-100");
-                    secnum = random.Next() % 100 + 1;
+                    Secret_Number = RandomNumber.Next() % 100 + 1;
                 }
-            break;
+                break;
             case 2:
                 {
                     Console.WriteLine("choosen range: 100-200");
-                    secnum = random.Next() % 100 + 100;
+                    Secret_Number = RandomNumber.Next() % 100 + 100;
                 }
-            break;
+                break;
             case 3:
                 {
                     Console.WriteLine("choosen range: 1-1000");
-                    secnum = random.Next() % 1000 + 1;
+                    Secret_Number = RandomNumber.Next() % 1000 + 1;
                 }
-            break;
+                break;
             default:
-            {
+                {
 
-            }
-            break;
+                }
+                break;
         }
 
-        ValInp(); // Was passiert hier? ValInp() wird aufgerufen und der Wert nirgendwo verwendet. Ich nehme an da sollte ein `choice =` vor?
-        while (choice != secnum)
+        Valid_Input(); // Was passiert hier? ValInp() wird aufgerufen und der Wert nirgendwo verwendet. Ich nehme an da sollte ein `choice =` vor?
+        while (Choice != Secret_Number)
         {
-            counter++;
-            if (choice < secnum)
+            Counter++;
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
             }
-            else if (choice > secnum)
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
 
 
 
-            choice = ValInp();
+            Choice = Valid_Input();
 
 
         }
 
-        counter++;
+        
 
-        if (counter == 1)
+        if (Counter == 1)
         {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
+            Console.WriteLine("WoW you needed only " + Counter + "try!");
         }
         else
         {
-            Console.WriteLine("Great u needed " + counter + "tries!");
+            Console.WriteLine("Great u needed " + Counter + "tries!");
         }
 
-        RestartorMenu(V6);
+        Restart_Or_Menu(V6);
         Console.Clear();
 
     }
     static void V7()
     {
-        int upperbond; // bound nicht mit bond verwechseln
-        int lowerbond;
+        int Upper_Bound; // bound nicht mit bond verwechseln
+        int Lower_bound;
         Console.WriteLine("you set the range to guess! \n" +
                            "upper bond: ");
-        upperbond = ValInp();
-        Random random = new Random();
+        Upper_Bound = Valid_Input();
+        Random RandomNumber = new Random();
         Console.WriteLine("lower bond: ");
-        lowerbond = ValInp();
+        Lower_bound = Valid_Input();
         Console.WriteLine("now guess: ");
-        int choice = ValInp();
-        int secnum = random.Next(lowerbond, upperbond + 1);
-        int counter = 0;
-        
+        int Choice = Valid_Input();
+        int Secret_Number = RandomNumber.Next(Lower_bound, Upper_Bound + 1);
+        int Counter = 1;
 
-        while (choice != secnum)
+
+        while (Choice != Secret_Number)
         {
-            counter++;
-            if (choice < secnum)
+            Counter++;
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
             }
-            else if (choice > secnum)
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
 
 
 
-            choice = ValInp();
+            Choice = Valid_Input();
 
 
         }
 
-        counter++;
-
-        if (counter == 1)
+        
+        if (Counter == 1)
         {
-            Console.WriteLine("WoW you needed only " + counter + "try!");
+            Console.WriteLine("WoW you needed only " + Counter + " try!");
         }
         else
         {
-            Console.WriteLine("Great u needed " + counter + "tries!");
+            Console.WriteLine("Great u needed " + Counter + " tries!");
         }
 
-        RestartorMenu(V5);
+        Restart_Or_Menu(V5);
         Console.Clear();
- 
+
     }
     static void V8()
     {
-       Random random = new Random();
+        Random RandomNumber = new Random();
         Console.WriteLine("Ill rate your tries, range is 1000-10000! \n" +
                             "guess: ");
-        int choice = ValInp();
-        int secnum = random.Next() % 10000 + 1000 + 1;
-        int counter = 0;
+        int Choice = Valid_Input();
+        int Secret_Number = RandomNumber.Next() % 10000 + 1000 + 1;
+        int Counter = 1;
 
-        while (choice != secnum)
+        while (Choice != Secret_Number)
         {
-            counter++;
-            if (choice < secnum)
+            Counter++;
+            if (Choice < Secret_Number)
             {
                 Console.WriteLine("its too low!");
             }
-            else if (choice > secnum)
+            else if (Choice > Secret_Number)
             {
                 Console.WriteLine("Too high!");
             }
 
 
 
-            choice = ValInp();
+            Choice = Valid_Input();
 
 
         }
 
-        counter++;
 
-        if (counter < 14)
+        if (Counter < 14)
         {
-            Console.WriteLine("WoW you only needed " + counter + "tries!");
+            Console.WriteLine("WoW you only needed " + Counter + " tries!");
         }
-        else if (choice > 14)
+        else if (Choice > 14)
         {
-            Console.WriteLine("Nah its ok but maybe there is a better tactic? you needed" + counter + "tries!");
+            Console.WriteLine("Nah its ok but maybe there is a better tactic? you needed " + Counter + " tries!");
         }
-        else if (choice == 13 || counter == 14)
+        else if (Choice == 13 || Counter == 14)
         {
-            Console.WriteLine("Good job you needed " + counter + "tries! Thats pretty good!");
+            Console.WriteLine("Good job you needed " + Counter + " tries! Thats pretty good!");
         }
 
-        RestartorMenu(V5);
+        Restart_Or_Menu(V5);
         Console.Clear();
     }
     static void V9()
@@ -418,26 +414,26 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
     #endregion
 
-    #region dependencies // würde es eher utils (wegen utilities/utility functions) nennen. Dependencies ist im Programmierkontext meistens spezifischer für externe Bibliotheken oder Frameworks, die benötigt werden.
+    #region utils
 
-    static int ValInp()
+    static int Valid_Input()
     {
-        int uinp = 0;
-        bool vinp = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is", "has", ... und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
+        int User_Input = 0;
+        bool valid_input = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is", "has", ... und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
 
-        while (!vinp)
+        while (!valid_input)
         {
             try
             {
 
-                uinp = Convert.ToInt32(Console.ReadLine()); // hier könnte man input nehmen und in Int konvertieren aufsplitten für bessere lesbarkeit und leichtere Fehlersuche
+                User_Input = Convert.ToInt32(Console.ReadLine()); // hier könnte man input nehmen und in Int konvertieren aufsplitten für bessere lesbarkeit und leichtere Fehlersuche
                 /*
                 string rawInput = Console.ReadLine(); // vor try block
                 try
                 {
                     uinp = Convert.ToInt32(rawInput)
-                */ 
-                vinp = true;
+                */
+                valid_input = true;
 
             }
             catch (FormatException)
@@ -447,14 +443,14 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
 
             }
         }
-        return uinp;
+        return User_Input;
     }
 
-    static void RestartorMenu(Action restartVersion)
+    static void Restart_Or_Menu(Action restartVersion)
     {
         Console.WriteLine("Restart (r)\n" +
             "go to MainMenu? (m)\n" +
-            "End Game 'e'");
+            "End Game (e)");
         char choice = Console.ReadKey().KeyChar;
         Console.WriteLine();
 
@@ -477,7 +473,7 @@ class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
         else
         {
             Console.WriteLine("Invalid input please use 'r','m' or 'e'");
-            RestartorMenu(restartVersion); // kann man auf jeden fall so machen. Das Fachwort hier ist Rekursion, also Code der sich (unter bestimmten Bedingungen) selbst aufruft.
+            Restart_Or_Menu(restartVersion); // kann man auf jeden fall so machen. Das Fachwort hier ist Rekursion, also Code der sich (unter bestimmten Bedingungen) selbst aufruft.
             // Rekursion wird neben Benutzerinteraktion wie hier oft verwendet um algorithmen recheneffizient aufzubauen bspw bei Sortieralogrithmen wie QuickSort
         }
     }

@@ -1,483 +1,588 @@
-#region used Packs
 using System;
-using System.Runtime.ExceptionServices;
-using System.Threading.Channels;
-using System.Xml.Serialization;
-#endregion
+using System.Numerics; // Für BigInteger
 
-#region Running what?
-class Programm      //Klasse   (Was gibt es für Klassen außer Programme?)
+class Program
 {
-
-    #region EinstiegsVoid
+    // Eine einzelne Instanz von Random wiederverwenden für bessere Zufallszahlen
+    static Random rand = new Random();
 
     static void Main()
     {
-
-        bool keepPlaying = true;                                 // WahrFalsch Wert für Weiterspielen Schleife
+        bool keepPlaying = true;
 
         while (keepPlaying)
         {
-            Console.WriteLine("Welcome to CodeKnagger!\n" +
-                "Number Guessing in different Variations\n" +
-                "Choose: \n" +
-                "1. One try, just Right or False \n" +
-                "2. Again only one guess now with call ><. \n" +
-                "3. Multiple tries from now on \n" +
-                "4. I count your tries! \n" +
-                "5. Randomized Number \n" +
-                "6. 3 different ranges (Modulo Operator) \n" +
-                "7. Set the range yourself. \n" +
-                "8." +
-                "9." +
-                "10." +
-                "11.");
+            Console.WriteLine("Willkommen beim Codeknacker!\n" +
+                "Wähle eine Variante:\n" +
+                "1. Variante 1\n" +
+                "2. Variante 2\n" +
+                "3. Variante 3\n" +
+                "4. Variante 4\n" +
+                "5. Variante 5\n" +
+                "6. Variante 6\n" +
+                "7. Variante 7\n" +
+                "8. Variante 8\n" +
+                "9. Variante 9\n" +
+                "10. Variante 10\n" +
+                "0. Beenden");
 
-            int Choice = Valid_Input(); // ValInp() könnte descriptiver benannt sein bspw GetValFromUserInp
+            int choice = ValidInput(0, 10);
 
-            switch (Choice)
+            switch (choice)
             {
                 case 1:
-                    V1();
-                    break; // einige breaks waren nicht eingerückt
+                    Variante1();
+                    break;
                 case 2:
-                    V2();
+                    Variante2();
                     break;
                 case 3:
-                    V3();
+                    Variante3();
                     break;
                 case 4:
-                    V4();
+                    Variante4();
                     break;
                 case 5:
-                    V5();
+                    Variante5();
                     break;
                 case 6:
-                    V6();
+                    Variante6();
                     break;
                 case 7:
-                    V7();
+                    Variante7();
                     break;
                 case 8:
-                    V8();
+                    Variante8();
                     break;
                 case 9:
-                    V9();
+                    Variante9();
+                    break;
+                case 10:
+                    Variante10();
+                    break;
+                case 0:
+                    keepPlaying = false;
+                    Console.WriteLine("Bis zum nächsten Mal!");
                     break;
                 default:
-                    Console.WriteLine("Invalid choice! Please choose a valid option! Press any button to retry.");
-                    Console.ReadLine();
-                    Console.Clear();
+                    Console.WriteLine("Ungültige Auswahl. Bitte erneut versuchen.");
                     break;
-
             }
-        }                                   
 
-    }    
-
-    #endregion
-
-    #region GameVariations
-
-    static void V1()
+            Console.WriteLine();
+        }
+    }
+#region Spielvarianten
+    // Variante 1: Einfache Zahl raten
+    static void Variante1()
     {
-        Console.WriteLine("Easy start, guess one time: ");
-        int Choice = Valid_Input();
-        int Secret_Number = 5;
+        const int geheimzahl = 42; // Vorgegebene Geheimzahl
 
+        Console.WriteLine("Variante 1: Rate die Geheimzahl.");
+        Console.Write("Dein Tipp: ");
+        int tipp = ValidInput();
 
-        if (Choice != Secret_Number)
+        if (tipp == geheimzahl)
         {
-            Console.WriteLine("Sorry, maybe next time");
-
+            Console.WriteLine("Die Zahl ist richtig!");
         }
         else
         {
-
-            Console.WriteLine("Well done!");
-
+            Console.WriteLine("Die Zahl ist falsch.");
         }
-
-        Restart_Or_Menu(V1); 
-        Console.Clear();
     }
-    static void V2()
+
+    // Variante 2: Hinweis, ob Zahl zu groß oder zu klein ist
+    static void Variante2()
     {
+        const int geheimzahl = 42;
 
-        Console.WriteLine("One try again, now i call if u were >< : ");
-        int Choice = Valid_Input();
-        int Secret_Number = 6;
+        Console.WriteLine("Variante 2: Rate die Geheimzahl.");
+        Console.Write("Dein Tipp: ");
+        int tipp = ValidInput();
 
-        if (Choice < Secret_Number)
+        if (tipp == geheimzahl)
         {
-            Console.WriteLine("Try a bit higher!");
+            Console.WriteLine("Die eingegebene Zahl ist richtig.");
         }
-        else if (Choice > Secret_Number)
+        else if (tipp < geheimzahl)
         {
-            Console.WriteLine("Nah, its a bit to high!"); // "vergleichendes" too immer mit zwei o (too late, too much, ...)
+            Console.WriteLine("Die eingegebene Zahl ist zu klein.");
         }
         else
         {
-            Console.WriteLine("Well done!");
+            Console.WriteLine("Die eingegebene Zahl ist zu groß.");
         }
-        Restart_Or_Menu(V2);
-        Console.Clear();
-
     }
-    static void V3()
+
+    // Variante 3: Wiederholung bis die Zahl gefunden wurde
+    static void Variante3()
     {
-        Console.WriteLine("Multiple tries from now on \n" +
-            "guess: ");
-        int Choice = Valid_Input();
-        int Secret_Number = 7;
+        const int geheimzahl = 42;
 
-        while (Choice != Secret_Number)
+        Console.WriteLine("Variante 3: Rate die Geheimzahl.");
+
+        int tipp;
+
+        do
         {
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
 
-            if (Choice < Secret_Number)
+            if (tipp == geheimzahl)
             {
-                Console.WriteLine("its too low!");
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
             }
-            else if (Choice > Secret_Number)
+            else if (tipp < geheimzahl)
             {
-                Console.WriteLine("Too high!");
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
             }
             else
             {
-                Console.WriteLine("Great you did it!"); // theoretisch kann man hier auch das else streichen und den console output wie unten im kommentar nach der schleife einfügen, da diese ja sowieso mit success endet. ist letztendlich Geschmacksache und ich finde es auch schön wie hier alle möglichen outcomes zusammen zu haben
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
             }
-
-            Choice = Valid_Input();
-
         }
-        // wenn oben weggelassen, dann stattdessen hier nach ende der schleife
-        // Console.WriteLine("Great you did it!");
-        Restart_Or_Menu(V3);
-        Console.Clear();
-
+        while (tipp != geheimzahl);
     }
-    static void V4()
+
+    // Variante 4: Zähler der Versuche
+    static void Variante4()
     {
+        const int geheimzahl = 42;
+        int versuche = 0;
 
-        Console.WriteLine("Multiple tries from now on with counter \n" +
-                   "guess: ");
-        int Choice = Valid_Input();
-        int Secret_Number = 10;
-        int Counter = 1;
+        Console.WriteLine("Variante 4: Rate die Geheimzahl.");
 
-        while (Choice != Secret_Number)
+        int tipp;
+
+        do
         {
-            Counter++;
-            if (Choice < Secret_Number)
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
             {
-                Console.WriteLine("its too low!");
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
             }
-            else if (Choice > Secret_Number)
+            else if (tipp < geheimzahl)
             {
-                Console.WriteLine("Too high!");
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
             }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
 
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+    }
 
+    // Variante 5: Zufällige Geheimzahl
+    static void Variante5()
+    {
+        int geheimzahl = rand.Next(1, 101); // Zufallszahl zwischen 1 und 100
+        int versuche = 0;
 
-            Choice = Valid_Input();
+        Console.WriteLine("Variante 5: Rate die zufällige Geheimzahl zwischen 1 und 100.");
 
+        int tipp;
 
+        do
+        {
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
+            }
+            else if (tipp < geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
+            }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
+
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+    }
+
+    // Variante 6: Zufallszahl mit Modulo-Operator
+    static void Variante6()
+    {
+        int geheimzahl = rand.Next() % 1000 + 1; // Zufallszahl zwischen 1 und 1000
+        int versuche = 0;
+
+        Console.WriteLine("Variante 6: Rate die Geheimzahl zwischen 1 und 1000.");
+
+        int tipp;
+
+        do
+        {
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
+            }
+            else if (tipp < geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
+            }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
+
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+    }
+
+    // Variante 7: Benutzerdefinierter Zahlenbereich
+    static void Variante7()
+    {
+        Console.WriteLine("Variante 7: Wähle den Zahlenbereich.");
+
+        Console.Write("Untere Grenze: ");
+        int untereGrenze = ValidInput();
+
+        Console.Write("Obere Grenze: ");
+        int obereGrenze = ValidInput();
+
+        if (untereGrenze > obereGrenze)
+        {
+            // Grenzen tauschen
+            int temp = untereGrenze;
+            untereGrenze = obereGrenze;
+            obereGrenze = temp;
         }
 
-        Counter++; // statt hier beim richtigen guess um eins zu erhöhen, damit die Anzahl stimmt, könnte man auch oben mit int counter = 1; starten. Erneut Geschmacksache aber spart theoretisch ne Zeile I guess
+        int geheimzahl = rand.Next(untereGrenze, obereGrenze + 1);
+        int versuche = 0;
 
-        if (Counter == 1)
+        Console.WriteLine($"Rate die Geheimzahl zwischen {untereGrenze} und {obereGrenze}.");
+
+        int tipp;
+
+        do
         {
-            Console.WriteLine("WoW you needed only " + Counter + " try!"); // da counter hier sowieso immer 1 ist, kann man auch einfach fix ne eins in den string schreiben, dann hat man nur "string" statt "string" + counter + "string"
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
+            }
+            else if (tipp < geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
+            }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
+
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+    }
+
+    // Variante 8: Bewertung der Versuche
+    static void Variante8()
+    {
+        Console.WriteLine("Variante 8: Wähle den Zahlenbereich.");
+
+        Console.Write("Untere Grenze: ");
+        int untereGrenze = ValidInput();
+
+        Console.Write("Obere Grenze: ");
+        int obereGrenze = ValidInput();
+
+        if (untereGrenze > obereGrenze)
+        {
+            // Grenzen tauschen
+            int temp = untereGrenze;
+            untereGrenze = obereGrenze;
+            obereGrenze = temp;
+        }
+
+        int geheimzahl = rand.Next(untereGrenze, obereGrenze + 1);
+        int versuche = 0;
+
+        // Berechnung der optimalen Anzahl an Versuchen (log₂(N))
+        int optimalVersuche = (int)Math.Ceiling(Math.Log2(obereGrenze - untereGrenze + 1));
+
+        Console.WriteLine($"Rate die Geheimzahl zwischen {untereGrenze} und {obereGrenze}.");
+
+        int tipp;
+
+        do
+        {
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
+            }
+            else if (tipp < geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
+            }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
+
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+
+        if (versuche < optimalVersuche)
+        {
+            Console.WriteLine("Wow, du hattest Glück und hast weniger Versuche gebraucht als erwartet!");
+        }
+        else if (versuche == optimalVersuche)
+        {
+            Console.WriteLine("Gut gemacht, du hast die optimale Anzahl von Versuchen gebraucht!");
         }
         else
         {
-            Console.WriteLine("Great u needed " + Counter + " tries!");
+            Console.WriteLine("Du könntest deine Strategie verbessern. Versuche es erneut!");
         }
-
-        Restart_Or_Menu(V4);
-        Console.Clear();
-
     }
-    static void V5()
+
+    // Variante 9: Mathematische Bewertung
+    static void Variante9()
     {
-        Console.WriteLine("Randomized Number from now on! \n" +
-                           "guess: ");
-        int Choice = Valid_Input();
-        int Secret_Number = new Random().Next();
-        int Counter = 1;
+        Console.WriteLine("Variante 9: Wähle den Zahlenbereich.");
 
-        while (Choice != Secret_Number)
+        Console.Write("Untere Grenze: ");
+        int untereGrenze = ValidInput();
+
+        Console.Write("Obere Grenze: ");
+        int obereGrenze = ValidInput();
+
+        if (untereGrenze > obereGrenze)
         {
-            Counter++;
-            if (Choice < Secret_Number)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (Choice > Secret_Number)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            Choice = Valid_Input();
-
-
+            // Grenzen tauschen
+            int temp = untereGrenze;
+            untereGrenze = obereGrenze;
+            obereGrenze = temp;
         }
 
+        int geheimzahl = rand.Next(untereGrenze, obereGrenze + 1);
+        int versuche = 0;
 
-        if (Counter == 1)
+        // Berechnung der optimalen Anzahl an Versuchen (log₂(N))
+        int optimalVersuche = (int)Math.Ceiling(Math.Log2(obereGrenze - untereGrenze + 1));
+
+        Console.WriteLine($"Rate die Geheimzahl zwischen {untereGrenze} und {obereGrenze}.");
+
+        int tipp;
+
+        do
         {
-            Console.WriteLine("WoW you needed only " + Counter + "try!");
+            Console.Write("Dein Tipp: ");
+            tipp = ValidInput();
+            versuche++;
+
+            if (tipp == geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist richtig.");
+            }
+            else if (tipp < geheimzahl)
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu klein.");
+            }
+            else
+            {
+                Console.WriteLine("Die eingegebene Zahl ist zu groß.");
+            }
+        }
+        while (tipp != geheimzahl);
+
+        Console.WriteLine($"Du hast {versuche} Versuche gebraucht.");
+
+        if (versuche < optimalVersuche)
+        {
+            Console.WriteLine("Hervorragend! Du hast weniger Versuche gebraucht als mathematisch erwartet.");
+        }
+        else if (versuche == optimalVersuche)
+        {
+            Console.WriteLine("Sehr gut! Du hast die optimale Anzahl von Versuchen erreicht.");
         }
         else
         {
-            Console.WriteLine("Great u needed " + Counter + "tries!");
+            Console.WriteLine("Du hast mehr Versuche gebraucht als nötig. Überlege dir eine bessere Strategie.");
         }
 
-        Restart_Or_Menu(V5);
-        Console.Clear();
+        Console.WriteLine("\nErklärung:");
+        Console.WriteLine($"Die minimale Anzahl von Versuchen, um die Zahl zu erraten, beträgt log₂(N) = {optimalVersuche}, wobei N die Anzahl der möglichen Zahlen ist.");
     }
-    static void V6()
+
+// Variante 10: Große Zahlen mit BigInteger - 200 Zufallszahlen generieren
+static void Variante10()
+{
+    Console.WriteLine("Variante 10: Generiere und überprüfe 200 zufällige BigInteger-Zahlen.");
+
+    Console.Write("Untere Grenze: ");
+    BigInteger untereGrenze = ValidBigIntegerInput();
+
+    Console.Write("Obere Grenze: ");
+    BigInteger obereGrenze = ValidBigIntegerInput();
+
+    if (untereGrenze > obereGrenze)
     {
-        Console.WriteLine("choose your wished range! \n" + 
-                           "1. 1-100 \n" +
-                           "2. 100-200 \n" +
-                           "3. 1-1000 ");
-        Random RandomNumber = new Random();
-        int Choice = Valid_Input();
-        int Secret_Number = 0;
-        int Counter = 1;
-
-
-        switch (Choice)
-        {
-            case 1:
-                {
-                    Console.WriteLine("chosen range: 1-100");
-                    Secret_Number = RandomNumber.Next() % 100 + 1;
-                }
-                break;
-            case 2:
-                {
-                    Console.WriteLine("choosen range: 100-200");
-                    Secret_Number = RandomNumber.Next() % 100 + 100;
-                }
-                break;
-            case 3:
-                {
-                    Console.WriteLine("choosen range: 1-1000");
-                    Secret_Number = RandomNumber.Next() % 1000 + 1;
-                }
-                break;
-            default:
-                {
-
-                }
-                break;
-        }
-
-        Valid_Input(); // Was passiert hier? ValInp() wird aufgerufen und der Wert nirgendwo verwendet. Ich nehme an da sollte ein `choice =` vor?
-        while (Choice != Secret_Number)
-        {
-            Counter++;
-            if (Choice < Secret_Number)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (Choice > Secret_Number)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            Choice = Valid_Input();
-
-
-        }
-
-        
-
-        if (Counter == 1)
-        {
-            Console.WriteLine("WoW you needed only " + Counter + "try!");
-        }
-        else
-        {
-            Console.WriteLine("Great u needed " + Counter + "tries!");
-        }
-
-        Restart_Or_Menu(V6);
-        Console.Clear();
-
+        // Grenzen tauschen
+        BigInteger temp = untereGrenze;
+        untereGrenze = obereGrenze;
+        obereGrenze = temp;
     }
-    static void V7()
+
+    Console.WriteLine($"Generiere 200 zufällige Zahlen zwischen {untereGrenze} und {obereGrenze}...");
+
+    List<BigInteger> zufallsZahlen = new List<BigInteger>();
+
+    for (int i = 0; i < 200; i++)
     {
-        int Upper_Bound; // bound nicht mit bond verwechseln
-        int Lower_bound;
-        Console.WriteLine("you set the range to guess! \n" +
-                           "upper bond: ");
-        Upper_Bound = Valid_Input();
-        Random RandomNumber = new Random();
-        Console.WriteLine("lower bond: ");
-        Lower_bound = Valid_Input();
-        Console.WriteLine("now guess: ");
-        int Choice = Valid_Input();
-        int Secret_Number = RandomNumber.Next(Lower_bound, Upper_Bound + 1);
-        int Counter = 1;
-
-
-        while (Choice != Secret_Number)
-        {
-            Counter++;
-            if (Choice < Secret_Number)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (Choice > Secret_Number)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            Choice = Valid_Input();
-
-
-        }
-
-        
-        if (Counter == 1)
-        {
-            Console.WriteLine("WoW you needed only " + Counter + " try!");
-        }
-        else
-        {
-            Console.WriteLine("Great u needed " + Counter + " tries!");
-        }
-
-        Restart_Or_Menu(V5);
-        Console.Clear();
-
+        BigInteger zahl = RandomBigInteger(untereGrenze, obereGrenze);
+        zufallsZahlen.Add(zahl);
     }
-    static void V8()
+
+    // Ergebnisse auf der Konsole ausgeben
+    Console.WriteLine("Generierte Zahlen:");
+    foreach (BigInteger zahl in zufallsZahlen)
     {
-        Random RandomNumber = new Random();
-        Console.WriteLine("Ill rate your tries, range is 1000-10000! \n" +
-                            "guess: ");
-        int Choice = Valid_Input();
-        int Secret_Number = RandomNumber.Next() % 10000 + 1000 + 1;
-        int Counter = 1;
-
-        while (Choice != Secret_Number)
-        {
-            Counter++;
-            if (Choice < Secret_Number)
-            {
-                Console.WriteLine("its too low!");
-            }
-            else if (Choice > Secret_Number)
-            {
-                Console.WriteLine("Too high!");
-            }
-
-
-
-            Choice = Valid_Input();
-
-
-        }
-
-
-        if (Counter < 14)
-        {
-            Console.WriteLine("WoW you only needed " + Counter + " tries!");
-        }
-        else if (Choice > 14)
-        {
-            Console.WriteLine("Nah its ok but maybe there is a better tactic? you needed " + Counter + " tries!");
-        }
-        else if (Choice == 13 || Counter == 14)
-        {
-            Console.WriteLine("Good job you needed " + Counter + " tries! Thats pretty good!");
-        }
-
-        Restart_Or_Menu(V5);
-        Console.Clear();
+        Console.WriteLine(zahl);
     }
-    static void V9()
+
+    // Optional: Zahlen in eine Datei schreiben
+    Console.WriteLine("Möchtest du die Zahlen in eine Datei speichern? (ja/nein)");
+    string antwort = Console.ReadLine()?.ToLower();
+    if (antwort == "ja")
     {
-        Console.Clear();
+        string pfad = "GenerierteZahlen.txt";
+        File.WriteAllLines(pfad, zufallsZahlen.Select(z => z.ToString()));
+        Console.WriteLine($"Die Zahlen wurden in {pfad} gespeichert.");
     }
 
-    #endregion
-
-    #region utils
-
-    static int Valid_Input()
-    {
-        int User_Input = 0;
-        bool valid_input = false; // kann man so benennen, auf lange Sicht un mit mehr unterschiedlichen Leuten lohnt es sich längere deskriptivere Namen zu verwenden (bspw. isValidInput) [naming conventions bei bool oft beginnend mit "is", "has", ... und quasi als Frage formuliert die man mit TRUE/FALSE beantworten würde]
-
-        while (!valid_input)
-        {
-            try
-            {
-
-                User_Input = Convert.ToInt32(Console.ReadLine()); // hier könnte man input nehmen und in Int konvertieren aufsplitten für bessere lesbarkeit und leichtere Fehlersuche
-                /*
-                string rawInput = Console.ReadLine(); // vor try block
-                try
-                {
-                    uinp = Convert.ToInt32(rawInput)
-                */
-                valid_input = true;
-
-            }
-            catch (FormatException)
-            {
-
-                Console.WriteLine("Invalid Input!");
-
-            }
-        }
-        return User_Input;
-    }
-
-    static void Restart_Or_Menu(Action restartVersion)
-    {
-        Console.WriteLine("Restart (r)\n" +
-            "go to MainMenu? (m)\n" +
-            "End Game (e)");
-        char choice = Console.ReadKey().KeyChar;
-        Console.WriteLine();
-
-        if (choice == 'r')
-        {
-            Console.Clear();
-            restartVersion(); // die Idee ist cool, schön umgesetzt die Funktion als Action mitzugeben und aufzurufen
-        }
-        else if (choice == 'm')
-        {
-            Console.Clear();
-            return;
-        }
-        else if (choice == 'e')
-        {
-            Console.Clear();
-            Environment.Exit(0);
-            Console.WriteLine("Until next time!");
-        }
-        else
-        {
-            Console.WriteLine("Invalid input please use 'r','m' or 'e'");
-            Restart_Or_Menu(restartVersion); // kann man auf jeden fall so machen. Das Fachwort hier ist Rekursion, also Code der sich (unter bestimmten Bedingungen) selbst aufruft.
-            // Rekursion wird neben Benutzerinteraktion wie hier oft verwendet um algorithmen recheneffizient aufzubauen bspw bei Sortieralogrithmen wie QuickSort
-        }
-    }
-
-    #endregion
+    Console.WriteLine("Fertig!");
 }
 #endregion
+ #region Helferfunktionen
+    // Hilfsfunktion zur Validierung der Benutzereingabe (Integer)
+    static int ValidInput()
+    {
+        while (true)
+        {
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int result))
+            {
+                return result;
+            }
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe. Bitte eine ganze Zahl eingeben:");
+            }
+        }
+    }
+
+    // Überladene Funktion zur Validierung mit Bereich
+    static int ValidInput(int min, int max)
+    {
+        while (true)
+        {
+            string input = Console.ReadLine();
+
+            if (int.TryParse(input, out int result))
+            {
+                if (result >= min && result <= max)
+                {
+                    return result;
+                }
+                else
+                {
+                    Console.WriteLine($"Bitte eine Zahl zwischen {min} und {max} eingeben:");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe. Bitte eine ganze Zahl eingeben:");
+            }
+        }
+    }
+
+    // Hilfsfunktion zur Validierung der Benutzereingabe (BigInteger)
+    static BigInteger ValidBigIntegerInput()
+    {
+        while (true)
+        {
+            string input = Console.ReadLine();
+
+            if (BigInteger.TryParse(input, out BigInteger result))
+            {
+                return result;
+            }
+            else
+            {
+                Console.WriteLine("Ungültige Eingabe. Bitte eine gültige Zahl eingeben:");
+            }
+        }
+    }
+
+    // Funktion zur Generierung einer zufälligen BigInteger innerhalb eines Bereichs
+    static BigInteger RandomBigInteger(BigInteger min, BigInteger max)
+    {
+        BigInteger range = max - min + 1;
+        int bytesLength = (int)Math.Ceiling(BigInteger.Log(range, 256));
+        byte[] bytes = new byte[bytesLength];
+
+        BigInteger result;
+
+        do
+        {
+            rand.NextBytes(bytes);
+            result = new BigInteger(bytes.Abs()); // Absolutwert, um negative Zahlen zu vermeiden
+        }
+        while (result >= range);
+
+        return result + min;
+    }
+#endregion
+}
+
+// Erweiterungsmethode, um den Absolutwert eines Byte-Arrays (V10 Beliebiger Zahlenraum) zu erhalten
+static class Extensions
+{
+    public static byte[] Abs(this byte[] bytes)
+    {
+        if (bytes[bytes.Length - 1] >= 128)
+        {
+            // Wenn das höchste Bit gesetzt ist, ist die Zahl negativ
+            byte carry = 1;
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                bytes[i] = (byte)(~bytes[i]);
+                bytes[i] += carry;
+                if (bytes[i] != 0)
+                {
+                    carry = 0;
+                }
+            }
+        }
+        return bytes;
+    }
+}

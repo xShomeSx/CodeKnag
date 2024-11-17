@@ -1,14 +1,29 @@
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.AssemblyInfoInputs.cache
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.AssemblyInfo.cs
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.csproj.CoreCompileInputs.cache
-C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.exe
-C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.deps.json
-C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.runtimeconfig.json
-C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.dll
-C:\Users\andrey.krinov\source\repos\1Try\bin\Debug\net8.0\1Try.pdb
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.dll
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\refint\1Try.dll
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.pdb
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\1Try.genruntimeconfig.cache
-C:\Users\andrey.krinov\source\repos\1Try\obj\Debug\net8.0\ref\1Try.dll
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.AssemblyInfoInputs.cache
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.AssemblyInfo.cs
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.csproj.CoreCompileInputs.cache
+C:/Users/andrey.krinov/source/repos/1Try/bin/Debug/net8.0/1Try.exe
+C:/Users/andrey.krinov/source/repos/1Try/bin/Debug/net8.0/1Try.deps.json
+C:/Users/andrey.krinov/source/repos/1Try/bin/Debug/net8.0/1Try.runtimeconfig.json
+C:/Users/andrey.krinov/source/repos/1Try/bin/Debug/net8.0/1Try.dll
+C:/Users/andrey.krinov/source/repos/1Try/bin/Debug/net8.0/1Try.pdb
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.dll
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/refint/1Try.dll
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.pdb
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/1Try.genruntimeconfig.cache
+C:/Users/andrey.krinov/source/repos/1Try/obj/Debug/net8.0/ref/1Try.dll
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/bin/Debug/net8.0/1Try
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/bin/Debug/net8.0/1Try.deps.json
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/bin/Debug/net8.0/1Try.runtimeconfig.json
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/bin/Debug/net8.0/1Try.dll
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/bin/Debug/net8.0/1Try.pdb
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.GeneratedMSBuildEditorConfig.editorconfig
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.AssemblyInfoInputs.cache
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.AssemblyInfo.cs
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.csproj.CoreCompileInputs.cache
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.sourcelink.json
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.dll
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/refint/1Try.dll
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.pdb
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/1Try.genruntimeconfig.cache
+/Users/andreykrinov/Library/Mobile Documents/iCloud~md~obsidian/Documents/School&Work/1.Jahr/Schule/LF-05 Anwendungsentwicklung/CodeKnagRev/CodeKnag/1Try/obj/Debug/net8.0/ref/1Try.dll

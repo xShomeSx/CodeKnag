@@ -24,6 +24,7 @@ class Program
                 "8. Variante 8\n" +
                 "9. Variante 9\n" +
                 "10. Variante 10\n" +
+                "11. Variante 11\n" +
                 "0. Beenden");
 
             int choice = ValidInput(0, 10);
@@ -60,6 +61,9 @@ class Program
                 case 10:
                     Variante10();
                     break;
+                case 11:
+                    Variante11();
+                    break;    
                 case 0:
                     keepPlaying = false;
                     Console.WriteLine("Bis zum nächsten Mal!");
@@ -432,8 +436,69 @@ class Program
         Console.WriteLine($"Die minimale Anzahl von Versuchen, um die Zahl zu erraten, beträgt log₂(N) = {optimalVersuche}, wobei N die Anzahl der möglichen Zahlen ist.");
     }
 
-// Variante 10: Große Zahlen mit BigInteger - 200 Zufallszahlen generieren
+// Variante 10: Programm rät eine Zahl, die sich der Benutzer ausdenkt (binäre Suche)
 static void Variante10()
+{
+    // Ausgabe des Variationsnamens.
+    Console.WriteLine("Variante 10: Das Programm errät die Zahl, die du dir ausdenkst.");
+
+    // Benutzer fragt nach der unteren Grenze.
+    Console.Write("Untere Grenze: ");
+    int untereGrenze = ValidInput();
+
+    // Benutzer fragt nach der oberen Grenze.
+    Console.Write("Obere Grenze: ");
+    int obereGrenze = ValidInput();
+
+    // Falls die untere Grenze größer als die obere ist, werden die Werte getauscht.
+    if (untereGrenze > obereGrenze)
+    {
+        int temp = untereGrenze;
+        untereGrenze = obereGrenze;
+        obereGrenze = temp;
+    }
+
+    Console.WriteLine($"Denke dir eine Zahl zwischen {untereGrenze} und {obereGrenze}. Das Programm wird versuchen, deine Zahl zu erraten.");
+    Console.WriteLine("Antworte mit \"zu groß\", \"zu klein\" oder \"richtig\" auf die Vorschläge des Programms.");
+
+    int versuche = 0;
+    bool erraten = false;
+
+    // Binäre Suche durchführen
+    while (!erraten)
+    {
+        versuche++;
+        int mitte = (untereGrenze + obereGrenze) / 2; // Mitte berechnen
+
+        Console.WriteLine($"Ist deine Zahl {mitte}?");
+        Console.Write("Antwort (zu groß/zu klein/richtig): ");
+        string antwort = Console.ReadLine()?.ToLower();
+
+        if (antwort == "richtig")
+        {
+            Console.WriteLine($"Das Programm hat deine Zahl nach {versuche} Versuchen erraten!");
+            erraten = true;
+        }
+        else if (antwort == "zu groß")
+        {
+            obereGrenze = mitte - 1; // Obergrenze anpassen
+        }
+        else if (antwort == "zu klein")
+        {
+            untereGrenze = mitte + 1; // Untergrenze anpassen
+        }
+        else
+        {
+            Console.WriteLine("Ungültige Eingabe. Bitte antworte mit \"zu groß\", \"zu klein\" oder \"richtig\".");
+        }
+    }
+
+    // Aufgabe abgeschlossen
+    Console.WriteLine("Fertig!");
+}
+
+// Variante 11: Große Zahlen mit BigInteger - 200 Zufallszahlen generieren
+static void Variante11()
 {
     Console.WriteLine("Variante 10: Generiere und überprüfe 200 zufällige BigInteger-Zahlen.");
 
